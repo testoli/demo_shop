@@ -1,0 +1,61 @@
+DROP TABLE DEMO_SHOP.ORDERS CASCADE CONSTRAINTS;
+
+CREATE TABLE DEMO_SHOP.ORDERS
+(
+  ORDER_ID      NUMBER,
+  CUSTOMER_ID   NUMBER,
+  ORDER_DATE    DATE,
+  TOTAL_AMOUNT  NUMBER
+)
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE;
+
+
+ALTER TABLE DEMO_SHOP.ORDERS ADD (
+  PRIMARY KEY
+  (ORDER_ID)
+  USING INDEX
+    TABLESPACE USERS
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                PCTINCREASE      0
+                BUFFER_POOL      DEFAULT
+               )
+  ENABLE VALIDATE);
+
+
+--  There is no statement for index DEMO_SHOP.SYS_C007010.
+--  The object is created when the parent object is created.
+
+CREATE OR REPLACE TRIGGER DEMO_SHOP.order_trg
+BEFORE INSERT ON DEMO_SHOP.ORDERS
+FOR EACH ROW
+BEGIN
+  SELECT order_seq.NEXTVAL INTO :new.order_id FROM DUAL;
+END;
+/
+
+
+ALTER TABLE DEMO_SHOP.ORDERS ADD (
+  FOREIGN KEY (CUSTOMER_ID) 
+  REFERENCES DEMO_SHOP.CUSTOMERS (CUSTOMER_ID)
+  ENABLE VALIDATE);
