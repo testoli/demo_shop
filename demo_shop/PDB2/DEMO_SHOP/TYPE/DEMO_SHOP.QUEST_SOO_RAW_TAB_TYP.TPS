@@ -1,0 +1,2 @@
+CREATE OR REPLACE TYPE DEMO_SHOP.quest_soo_raw_tab_typ IS TABLE OF raw(4000)
+/
