@@ -1,0 +1,51 @@
+DROP TABLE DEMO_SHOP.ORDER_ITEMS CASCADE CONSTRAINTS;
+
+CREATE TABLE DEMO_SHOP.ORDER_ITEMS
+(
+  ORDER_ID    NUMBER,
+  PRODUCT_ID  NUMBER,
+  QUANTITY    NUMBER
+)
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE;
+
+
+ALTER TABLE DEMO_SHOP.ORDER_ITEMS ADD (
+  PRIMARY KEY
+  (ORDER_ID, PRODUCT_ID)
+  USING INDEX
+    TABLESPACE USERS
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                PCTINCREASE      0
+                BUFFER_POOL      DEFAULT
+               )
+  ENABLE VALIDATE);
+
+
+--  There is no statement for index DEMO_SHOP.SYS_C007012.
+--  The object is created when the parent object is created.
+
+ALTER TABLE DEMO_SHOP.ORDER_ITEMS ADD (
+  FOREIGN KEY (ORDER_ID) 
+  REFERENCES DEMO_SHOP.ORDERS (ORDER_ID)
+  ENABLE VALIDATE);
