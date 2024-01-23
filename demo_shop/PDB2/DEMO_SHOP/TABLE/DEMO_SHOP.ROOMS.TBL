@@ -1,0 +1,53 @@
+DROP TABLE DEMO_SHOP.ROOMS CASCADE CONSTRAINTS;
+
+CREATE TABLE DEMO_SHOP.ROOMS
+(
+  ROOM_KEY     NUMBER,
+  NAME         VARCHAR2(100 BYTE),
+  DESCRIPTION  CHAR(2 BYTE)
+)
+TABLESPACE USERS
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE;
+
+
+ALTER TABLE DEMO_SHOP.ROOMS ADD (
+  PRIMARY KEY
+  (ROOM_KEY)
+  USING INDEX
+    TABLESPACE USERS
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                PCTINCREASE      0
+                BUFFER_POOL      DEFAULT
+               )
+  ENABLE VALIDATE);
+
+
+--  There is no statement for index DEMO_SHOP.SYS_C009669.
+--  The object is created when the parent object is created.
+
+DROP PUBLIC SYNONYM ROOMS;
+
+CREATE OR REPLACE PUBLIC SYNONYM ROOMS FOR DEMO_SHOP.ROOMS;
+
+
+GRANT ALTER, DELETE, INDEX, INSERT, REFERENCES, SELECT, UPDATE, ON COMMIT REFRESH, QUERY REWRITE, READ, DEBUG, FLASHBACK ON DEMO_SHOP.ROOMS TO PUBLIC;
